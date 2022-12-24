@@ -1,0 +1,124 @@
+<html>
+<head>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> 
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <h1>Hi, there!</h1>
+    <div id="react-root"></div>
+    <script type="text/babel">
+        function HelloWorld(props) {
+
+            return <h1>Hello, {props.name} {props.surname}!</h1>;
+
+        }
+
+        function GoodbyeWorld(props) {
+
+            return <h1>Goodbye, world!</h1>;
+
+        }
+
+        class Hello extends React.Component {
+
+            constructor(){
+                super();
+                this.state = {
+                    what: "Goodbye",
+                    count: 0
+                };
+                this.updateMessage = this.updateMessage.bind(this);
+                this.resetCount = this.resetCount.bind(this);
+           }
+
+            updateMessage() {
+                if(this.state.what == "Goodbye"){
+                    this.setState({
+                        what: "Hello",
+                        count: this.state.count + 1
+                    });
+                }
+                else{
+                    this.setState({
+                        what: "Goodbye",
+                        count: this.state.count + 1
+                    });
+                }
+            }    
+            resetCount(){
+                if(this.state.count > 0){
+                    this.setState({
+                        count: 0
+                    });
+                }
+            }
+
+           render() {
+              return (
+                 <div>
+                    <h1>{this.state.what}, {this.props.who}!</h1>;
+                    <h1>{this.state.count}</h1>
+                    <button onClick={this.updateMessage}>Click me!</button>
+                    <button onClick={this.resetCount}>Reset count</button>
+                 </div>   
+              )
+           }
+
+        }
+class LifecycleExampleComponent extends React.Component {
+  
+  constructor (props) {
+    super(props);
+    this.state = {};
+    console.log('constructor(): props:', props);
+  }
+  
+  getDerivedStateFromProps(props, state) {
+    console.log('getDerivedStateFromProps(): props:', props, ', state:', state);
+    console.log('getDerivedStateFromProps(): this.props:', this.props, ', this.state:', this.state);
+    return null;
+  }
+  
+  shouldComponentUpdate(nextProps, ) {
+    console.log('getDerivedStateFromProps(): nextProps:', nextProps, ', nextState:', nextState);
+    console.log('getDerivedStateFromProps(): this.props:', this.props, ', this.state:', this.state);
+    return true;
+  }
+  
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log('getDerivedStateFromProps(): prevProps:', prevProps, ', prevState:', prevState );
+    console.log('getDerivedStateFromProps(): this.props:', this.props, ', this.state:', this.state);
+  }
+  
+  componentDidMount() {
+    console.log('componentDidMount(): this.props:', this.props, ', this.state:', this.state);
+  }
+  
+  componentWillUnmount() {
+    console.log('componentWillUnmount(): this.props:', this.props, ', this.state:', this.state);
+  }
+  
+  render() {
+    console.log('render(): this.props:', this.props, ', this.state:', this.state);
+    return <div>LifecycleExampleComponent</div>
+  }
+  
+  static getDerivedStateFromError(error) {
+    console.log('render(): error:', error, ', info:', info);
+    return {};
+  }
+  
+  componentDidCatch(error, info) {
+    console.log('render(): error:', error, ', info:', info);
+  }
+
+
+}
+      ReactDOM.render(
+            <Hello who="Марина"/>, 
+            document.getElementById("react-root")
+        );
+    </script>
+</body>
+</html>
