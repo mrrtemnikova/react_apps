@@ -1,0 +1,173 @@
+<html>
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <h1>Hi, there!</h1>
+    <div id="react-root"></div>
+    <script type="text/babel">
+
+      class Counter extends React.Component {
+        constructor(props) {
+          super(props);
+          console.log("constructor(): props:", props);
+          this.resetCount = this.resetCount.bind(this);
+        }
+
+        getDerivedStateFromProps(props, state) {
+          // console.log(
+          //   "getDerivedStateFromProps(): props:",
+          //   props,
+          //   ", state:",
+          //   state
+          // );
+          // console.log(
+          //   "getDerivedStateFromProps(): this.props:",
+          //   this.props,
+          //   ", this.state:",
+          //   this.state
+          // );
+          return null;
+        }
+
+        shouldComponentUpdate(nextProps, nextState) {
+          // console.log(
+          //   "getDerivedStateFromProps(): nextProps:",
+          //   nextProps,
+          //   ", nextState:",
+          //   nextState
+          // );
+          // console.log(
+          //   "getDerivedStateFromProps(): this.props:",
+          //   this.props,
+          //   ", this.state:",
+          //   this.state
+          // );
+          return true;
+        }
+
+        getSnapshotBeforeUpdate(prevProps, prevState) {
+          // console.log(
+          //   "getDerivedStateFromProps(): prevProps:",
+          //   prevProps,
+          //   ", prevState:",
+          //   prevState
+          // );
+          // console.log(
+          //   "getDerivedStateFromProps(): this.props:",
+          //   this.props,
+          //   ", this.state:",
+          //   this.state
+          // );
+        }
+
+        resetCount() {
+          // if (this.state.counter > 0) {
+          //   this.setState({
+          //     counter: 0,
+          //   });
+          // }
+          this.props.handleReset();
+        }
+
+        componentDidMount() {
+          // console.log(
+          //   "componentDidMount(): this.props:",
+          //   this.props,
+          //   ", this.state:",
+          //   this.state
+          // );
+          let intervalID = setInterval(() => {
+            console.log(this.props.counter);
+            // this.setState({
+            //   counter: this.state.counter + 1,
+            // });
+            this.props.handleCounterTick();
+          }, 1000);
+        }
+
+        componentWillUnmount() {
+          clearInterval(intervalID);
+          // console.log(
+          //   "componentWillUnmount(): this.props:",
+          //   this.props,
+          //   ", this.state:",
+          //   this.state
+          // );
+        }
+
+        render() {
+          // console.log(
+          //   "render(): this.props:",
+          //   this.props,
+          //   ", this.state:",
+          //   this.state,
+          //   ", counter",
+          //   this.counter
+          // );
+          return <button onClick={this.resetCount}>Reset count</button>;
+        }
+
+        static getDerivedStateFromError(error) {
+          console.log("render(): error:", error, ", info:", info);
+          return {};
+        }
+
+        componentDidCatch(error, info) {
+          console.log("render(): error:", error, ", info:", info);
+        }
+      }
+
+      class Parent extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { counter: 0 };
+          this.handleCounterTick = this.handleCounterTick.bind(this);
+          this.handleReset = this.handleReset.bind(this);
+        }
+
+        handleCounterTick() {
+          this.setState({
+            counter: this.state.counter + 1,
+          });
+          console.log("Some message from Parent");
+        }
+
+        handleReset() {
+          if (this.state.counter > 0) {
+            this.setState({
+              counter: 0,
+            });
+          }
+          console.log("Reset from Parent");
+        }
+
+        render() {
+          return (
+            <Counter
+              counter={this.state.counter}
+              handleCounterTick={this.handleCounterTick}
+              handleReset={this.handleReset}
+            />
+          );
+        }
+      }
+
+      function Reset(props) {
+        return (
+          <button onClick={props.resetCount}>Reset count</button>
+        );
+      }
+
+      ReactDOM.render(<Parent />, document.getElementById("react-root"));
+    </script>
+  </body>
+</html>
